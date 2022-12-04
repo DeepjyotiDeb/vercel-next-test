@@ -19,6 +19,26 @@ export default function Post(props) {
   );
 }
 
+export async function getStaticPaths() {
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+  const client = await clientPromise;
+  const db = client.db('trpctest');
+  const allPosts = await db.collection('Post').find({}).toArray();
+  const paths = allPosts.map((post) => ({
+    params: { id: post._id.toString() },
+  }));
+
+  return {
+    paths,
+    fallback: false, // can also be true or 'blocking'
+  };
+}
+
 export async function getStaticProps(context) {
   const { id } = context.params;
   const client = await clientPromise;
