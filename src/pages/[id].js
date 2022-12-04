@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // can also be true or 'blocking'
+    fallback: 'blocking', // can also be true or 'blocking'
   };
 }
 
@@ -50,5 +50,6 @@ export async function getStaticProps(context) {
 
   return {
     props: { post: JSON.parse(JSON.stringify(allPosts)) },
+    revalidate: 10,
   };
 }
