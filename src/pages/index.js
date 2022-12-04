@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 
@@ -28,9 +28,12 @@ export default function Home() {
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
         </p>
-        <p className={styles.description}>
-          {data.data && data.data.map((item) => item.title)}
-        </p>
+        {data.data &&
+          data.data.map((item, index) => (
+            <Link key={index} href={`${item._id}`}>
+              {item.title}
+            </Link>
+          ))}
         <div className={styles.grid}>
           <a href='https://nextjs.org/docs' className={styles.card}>
             <h2>Documentation &rarr;</h2>
@@ -70,10 +73,7 @@ export default function Home() {
           target='_blank'
           rel='noopener noreferrer'
         >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src='/vercel.svg' alt='Vercel Logo' width={72} height={16} />
-          </span>
+          Powered by <span className={styles.logo}></span>
         </a>
       </footer>
     </div>
